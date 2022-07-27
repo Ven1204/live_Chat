@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-function Chat(socket, username, room) {
+function Chat({socket, username, room}) {
   const [message, setMessage] = useState("");
 
   const sendMessage = async() =>{
@@ -9,12 +9,19 @@ function Chat(socket, username, room) {
         room: room,
         name:  username,
         message: message,
-        time: new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes()
+        time:
+          new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes() + " " + new Date().toLocaleString('en-us', {  weekday: 'long' })
       }
 
       await socket.emit("send_message", messageData);
     }
-  }
+  };
+
+  useEffect(() => {
+    socket.on('recieve_message', (data)=>{
+      console.log(data)
+    })
+  }, [socket]);
 
   return (
     <div>

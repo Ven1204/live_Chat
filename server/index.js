@@ -23,8 +23,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("send_message", (data) => {
-    // console.log(data)
-    socket.to(data.room).emit("recieve_message", data);
+    socket.to(data.room).emit("receive_message", data);
   });
 
   socket.on("disconnect", () => {
@@ -33,5 +32,5 @@ io.on("connection", (socket) => {
 });
 
 server.listen(3001, () => {
-  console.log("--SERVER RUNNING--");
+  console.log("SERVER RUNNING");
 });
